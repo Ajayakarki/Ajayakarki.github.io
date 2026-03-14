@@ -1,0 +1,309 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-space), sans-serif;
+  background: #0f172a;
+  color: #e2e8f0;
+  @apply antialiased;
+}
+
+:root {
+  --python-blue: #3776ab;
+  --python-yellow: #ffd43b;
+}
+
+.bg-python-blue\/25 {
+  background-color: rgba(55, 118, 171, 0.25);
+}
+
+.bg-python-yellow\/20 {
+  background-color: rgba(255, 212, 59, 0.2);
+}
+
+.bg-python-yellow\/90 {
+  background-color: rgba(255, 212, 59, 0.9);
+}
+
+.bg-python-blue\/90 {
+  background-color: rgba(55, 118, 171, 0.9);
+}
+
+.border-python-blue\/40 {
+  border-color: rgba(55, 118, 171, 0.4);
+}
+
+.border-python-yellow\/30 {
+  border-color: rgba(255, 212, 59, 0.3);
+}
+
+.font-jetbrains {
+  font-family: var(--font-jetbrains), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-space), sans-serif;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0b1220;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(56, 189, 248, 0.7), rgba(34, 197, 94, 0.7));
+  border-radius: 999px;
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 30px 60px rgba(8, 12, 24, 0.55);
+  backdrop-filter: blur(18px);
+}
+
+.glow-border {
+  position: relative;
+}
+
+.glow-border::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(55, 118, 171, 0.6), rgba(255, 212, 59, 0.45));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.text-gradient {
+  background: linear-gradient(120deg, #ffffff, #5aa0d8 45%, #ffd43b 80%);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.bg-hero-glow {
+  background: radial-gradient(circle at 15% 10%, rgba(55, 118, 171, 0.45), transparent 50%),
+    radial-gradient(circle at 85% 20%, rgba(255, 212, 59, 0.22), transparent 45%),
+    radial-gradient(circle at 50% 90%, rgba(31, 63, 100, 0.35), transparent 55%);
+  background-size: 140% 140%;
+  animation: glowShift 18s ease-in-out infinite;
+}
+
+.bg-grid {
+  background-image: linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 120px 120px;
+  mask-image: radial-gradient(circle at top, rgba(0, 0, 0, 0.8), transparent 70%);
+}
+
+.python-loader {
+  filter: drop-shadow(0 20px 35px rgba(55, 118, 171, 0.35))
+    drop-shadow(0 16px 28px rgba(255, 212, 59, 0.2));
+}
+
+.grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.12'/%3E%3C/svg%3E");
+  mix-blend-mode: soft-light;
+  pointer-events: none;
+}
+
+.typing {
+  position: relative;
+  padding-right: 8px;
+  animation: fadeIn 0.6s ease;
+}
+
+.typing::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 2px;
+  width: 2px;
+  height: 16px;
+  background: rgba(255, 255, 255, 0.7);
+  animation: blink 1s step-end infinite;
+}
+
+.scroll-indicator {
+  position: relative;
+  width: 24px;
+  height: 36px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+}
+
+.scroll-indicator span {
+  display: block;
+  width: 4px;
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.7);
+  animation: scroll 1.6s ease-in-out infinite;
+}
+
+.icon-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.08);
+  font-size: 14px;
+}
+
+.timeline {
+  position: relative;
+}
+
+.timeline-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 20px;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.timeline-node {
+  position: absolute;
+  left: 14px;
+  top: 34px;
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  background: #0c0f18;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.04);
+}
+
+.timeline-branch {
+  position: absolute;
+  left: 20px;
+  top: 40px;
+  width: 32px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.timeline-branch-left,
+.timeline-branch-right {
+  left: 20px;
+}
+
+.float-slow {
+  animation: float 8s ease-in-out infinite;
+}
+
+.float-fast {
+  animation: float 6s ease-in-out infinite;
+}
+
+.float-delay {
+  animation: float 9s ease-in-out infinite;
+  animation-delay: 1.5s;
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateY(-6px);
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+  80% {
+    transform: translateY(8px);
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes glowShift {
+  0% {
+    background-position: 0% 0%;
+  }
+  50% {
+    background-position: 100% 40%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@media (min-width: 1024px) {
+  .timeline-line {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .timeline-node {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .timeline-branch {
+    width: 56px;
+  }
+
+  .timeline-branch-left {
+    left: calc(50% - 56px);
+  }
+
+  .timeline-branch-right {
+    left: 50%;
+  }
+}
