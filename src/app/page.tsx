@@ -246,6 +246,11 @@ export default function Home() {
           <div className="font-jetbrains text-xs uppercase tracking-[0.45em] text-slate-300">
             ajaya.py
           </div>
+          <div className="hidden h-6 w-px bg-slate-700/70 sm:block" />
+          <div className="hidden items-center gap-3 rounded-full border border-slate-700/60 bg-[#111827] px-4 py-2 text-xs uppercase tracking-[0.35em] text-slate-300 font-jetbrains sm:flex">
+            <span>🇳🇵</span>
+            <span>Nepal</span>
+          </div>
         </div>
         <nav className="hidden items-center gap-6 text-xs uppercase tracking-[0.3em] text-slate-400 lg:flex font-jetbrains">
           {[
@@ -297,10 +302,6 @@ export default function Home() {
                 Backend systems, API architecture, automation
               </span>
             </h1>
-            <div className="inline-flex items-center gap-2 rounded-full border border-slate-700/60 bg-[#111827] px-4 py-2 text-xs uppercase tracking-[0.35em] text-slate-300 font-jetbrains">
-              <span>🇳🇵</span>
-              <span>Nepal</span>
-            </div>
             <p className="max-w-2xl text-base leading-relaxed text-slate-300">
               Building scalable backend services with clean, maintainable Python
               systems. Focused on API reliability, data pipelines, and developer
