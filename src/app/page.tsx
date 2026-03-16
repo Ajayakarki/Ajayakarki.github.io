@@ -201,6 +201,9 @@ function SectionHeading({ label, title }: { label: string; title: string }) {
 export default function Home() {
   const [showIntro, setShowIntro] = useState(true);
   const [loadingStep, setLoadingStep] = useState(0);
+  const [formStatus, setFormStatus] = useState<"idle" | "sending" | "success" | "error">(
+    "idle"
+  );
   const sections = [
     "hero",
     "about",
@@ -229,6 +232,36 @@ export default function Home() {
       clearTimeout(finishTimer);
     };
   }, []);
+
+  const handleContactSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+
+    setFormStatus("sending");
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.get("name"),
+          email: formData.get("email"),
+          address: formData.get("address"),
+          message: formData.get("message"),
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to send message");
+      }
+
+      form.reset();
+      setFormStatus("success");
+    } catch (error) {
+      console.error(error);
+      setFormStatus("error");
+    }
+  };
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-[#0f172a] text-[#e2e8f0]">
@@ -357,12 +390,6 @@ export default function Home() {
                 className="rounded-full border border-slate-600/70 bg-[#1e293b] px-6 py-3 text-xs font-semibold uppercase tracking-[0.3em] text-slate-200 transition hover:border-sky-400/60 hover:text-white"
               >
                 Contact Me
-              </a>
-              <a
-                href="https://github.com/username"
-                className="rounded-full border border-slate-600/70 bg-[#1e293b] px-6 py-3 text-xs font-semibold uppercase tracking-[0.3em] text-slate-200 transition hover:border-emerald-400/60 hover:text-white"
-              >
-                GitHub
               </a>
             </div>
           </div>
@@ -654,8 +681,7 @@ export default function Home() {
 
             <form
               className="rounded-2xl border border-slate-700/70 bg-[#1e293b] p-6 shadow-[0_16px_50px_rgba(2,6,23,0.45)]"
-              action="https://formspree.io/f/your_form_id"
-              method="POST"
+              onSubmit={handleContactSubmit}
             >
               <div className="grid gap-4">
                 <div>
@@ -667,6 +693,7 @@ export default function Home() {
                     name="name"
                     placeholder="Your name"
                     className="mt-2 w-full rounded-lg border border-slate-700/70 bg-[#0f172a] px-4 py-3 text-sm text-slate-200 placeholder:text-slate-500 focus:border-sky-400 focus:outline-none"
+                    required
                   />
                 </div>
                 <div>
@@ -677,6 +704,18 @@ export default function Home() {
                     type="email"
                     name="email"
                     placeholder="you@example.com"
+                    className="mt-2 w-full rounded-lg border border-slate-700/70 bg-[#0f172a] px-4 py-3 text-sm text-slate-200 placeholder:text-slate-500 focus:border-sky-400 focus:outline-none"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="text-xs uppercase tracking-[0.3em] text-slate-400 font-jetbrains">
+                    Address
+                  </label>
+                  <input
+                    type="text"
+                    name="address"
+                    placeholder="Your address"
                     className="mt-2 w-full rounded-lg border border-slate-700/70 bg-[#0f172a] px-4 py-3 text-sm text-slate-200 placeholder:text-slate-500 focus:border-sky-400 focus:outline-none"
                   />
                 </div>
@@ -689,14 +728,26 @@ export default function Home() {
                     name="message"
                     placeholder="Tell me about your project"
                     className="mt-2 w-full rounded-lg border border-slate-700/70 bg-[#0f172a] px-4 py-3 text-sm text-slate-200 placeholder:text-slate-500 focus:border-emerald-400 focus:outline-none"
+                    required
                   />
                 </div>
                 <button
                   type="submit"
                   className="rounded-lg bg-emerald-400 px-6 py-3 text-xs font-semibold uppercase tracking-[0.3em] text-[#0f172a] shadow-lg shadow-emerald-500/20 transition hover:-translate-y-0.5 hover:shadow-emerald-500/40"
+                  disabled={formStatus === "sending"}
                 >
-                  Send Message
+                  {formStatus === "sending" ? "Sending..." : "Send Message"}
                 </button>
+                {formStatus === "success" ? (
+                  <p className="text-xs text-emerald-400 font-jetbrains">
+                    Message sent successfully.
+                  </p>
+                ) : null}
+                {formStatus === "error" ? (
+                  <p className="text-xs text-red-400 font-jetbrains">
+                    Something went wrong. Please try again.
+                  </p>
+                ) : null}
               </div>
             </form>
           </div>
