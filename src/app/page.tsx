@@ -200,10 +200,34 @@ function SectionHeading({ label, title }: { label: string; title: string }) {
 
 export default function Home() {
   const [showIntro, setShowIntro] = useState(true);
+  const [loadingStep, setLoadingStep] = useState(0);
+  const sections = [
+    "hero",
+    "about",
+    "education",
+    "skills",
+    "experience",
+    "projects",
+    "contact",
+  ];
 
   useEffect(() => {
-    const timer = setTimeout(() => setShowIntro(false), 1500);
-    return () => clearTimeout(timer);
+    const stepTimer = setInterval(() => {
+      setLoadingStep((prev) => {
+        if (prev >= sections.length) return prev;
+        return prev + 1;
+      });
+    }, 260);
+
+    const finishTimer = setTimeout(() => {
+      setShowIntro(false);
+      clearInterval(stepTimer);
+    }, 2400);
+
+    return () => {
+      clearInterval(stepTimer);
+      clearTimeout(finishTimer);
+    };
   }, []);
 
   return (
@@ -216,26 +240,40 @@ export default function Home() {
           className="fixed inset-0 z-50 grid place-items-center bg-[#0f172a]"
           initial={{ opacity: 1 }}
           animate={{ opacity: 0 }}
-          transition={{ duration: 0.6, delay: 0.9 }}
+          transition={{ duration: 0.6, delay: 2.1 }}
         >
           <motion.div
-            className="rounded-2xl border border-slate-700/70 bg-[#111827] px-8 py-6 text-center shadow-[0_24px_70px_rgba(2,6,23,0.7)]"
+            className="w-[90%] max-w-xl rounded-2xl border border-slate-700/70 bg-[#111827] px-6 py-6 shadow-[0_24px_70px_rgba(2,6,23,0.7)]"
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.5, ease: "easeOut" }}
           >
-            <p className="text-xs uppercase tracking-[0.35em] text-slate-400 font-jetbrains">
-              booting backend
-            </p>
-            <p className="mt-3 text-lg text-slate-100 font-semibold">
-              python-services starting
-            </p>
-            <div className="mt-5 h-2 w-56 overflow-hidden rounded-full bg-[#0f172a]">
-              <motion.span
-                className="block h-full w-24 rounded-full bg-gradient-to-r from-sky-400 to-emerald-400"
-                animate={{ x: [0, 120, 0] }}
-                transition={{ duration: 1.2, repeat: Infinity, ease: "easeInOut" }}
-              />
+            <div className="flex items-center justify-between text-xs uppercase tracking-[0.3em] text-slate-400 font-jetbrains">
+              <span>terminal</span>
+              <span className="text-emerald-400">pip install portfolio</span>
+            </div>
+            <div className="mt-4 rounded-xl border border-slate-700/70 bg-[#0f172a] p-4 font-jetbrains text-sm text-slate-200">
+              <p className="text-slate-400">$ pip install ajaya-portfolio</p>
+              <p className="text-slate-400">Collecting components...</p>
+              <div className="mt-3 space-y-1">
+                {sections.map((section, index) => {
+                  const isDone = index < loadingStep;
+                  const isActive = index === loadingStep;
+                  return (
+                    <p key={section} className="flex items-center gap-2">
+                      <span className="text-emerald-400">
+                        {isDone ? "✔" : isActive ? "➜" : "•"}
+                      </span>
+                      <span className={isDone ? "text-slate-200" : "text-slate-400"}>
+                        {isDone ? "Installing" : "Queued"} {section}...
+                      </span>
+                    </p>
+                  );
+                })}
+              </div>
+              <p className="mt-3 text-slate-400">
+                Building wheel for ajaya-portfolio... done
+              </p>
             </div>
           </motion.div>
         </motion.div>
